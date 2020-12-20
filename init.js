@@ -21,7 +21,7 @@ const fileInit = async () => {
         console.log(` - ${newFile}`.brightCyan.bold);
         await file(newFile);
     });
-    fs.writeFileSync('./app/main.ssjs', `@html example_page from 'example_page.html';
+    fs.writeFileSync('./app/main.ssjs', `@page example_page from 'example_page.html';
 import Slide from './slide.class.js';
 const slide = new Slide();
   
@@ -45,11 +45,12 @@ const compileSSJS = file => {
     const content = fs.readFileSync(file).toString();
     let compiled = content.split('\n').map(i => i.split(';').filter(i => i).map(i => i + ';')).flat(Infinity).filter(i => i);
     const toImport = [];
-    const isImport = i => i.startsWith('@html') && i.split(' ').length >= 4 && i.split(' ')[2] === 'from';
+    const isImport = i => i.startsWith('@page') && i.split(' ').length >= 4 && i.split(' ')[2] === 'from';
+    const isImportComponent = i => i.startsWith('@component') && i.split(' ').length >= 4 && i.split(' ')[2] === 'from';
     compiled.filter(isImport).forEach(i => toImport.push([i.split("'")[0].split(' '), i.split("'")[1].split("'")[0]].flat(Infinity).filter(i => i)))
-    compiled = compiled.filter(i => !isImport(i));
+    compiled = compiled.filter(i => !isImport(i) || !isImportComponent(i));
     toImport.forEach(i => {
-        const content = fs.readFileSync('./app/pages/' + i[3]).toString().replaceAll('`', '\`').split('{').map(i => {
+        const content = fs.readFileSync(isImport(i) ? './app/pages/' + i[3] : './app/components/' + i[3]).toString().replaceAll('`', '\`').split('{').map(i => {
             const variableName = i.split('}')[0];
             return '<span data-listener-var="' + variableName + '">' + i.split('}').join('</span>');
         }).join('');
