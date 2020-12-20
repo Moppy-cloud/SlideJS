@@ -50,11 +50,11 @@ const compileSSJS = file => {
     compiled.filter(i => isImport(i) || isImportComponent(i)).forEach(i => toImport.push([i.split("'")[0].split(' '), i.split("'")[1].split("'")[0]].flat(Infinity).filter(i => i)));
     compiled = compiled.filter(i => !isImport(i) && !isImportComponent(i));
     toImport.forEach(i => {
-        const content = fs.readFileSync(i[0] === '@page' ? './app/pages/' + i[3] : './app/components/' + i[3]).toString().replaceAll('`', '\`').split('{').map(i => {
+        let content = fs.readFileSync(i[0] === '@page' ? './app/pages/' + i[3] : './app/components/' + i[3]).toString();
+        if(content.split('{').length) content = content.replaceAll('`', '\`').split('{').map(i => {
             const variableName = i.split('}')[0];
             return '<span data-listener-var="' + variableName + '">' + i.split('}').join('</span>');
         }).join('');
-        console.log(i);
         compiled.unshift(`const ${i[1]} = \`<link rel="stylesheet" href="/css/${i[1]}.css">${content}\``)
     });
     return compiled.join('\n') + ';app();';
