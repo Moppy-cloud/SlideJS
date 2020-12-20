@@ -21,16 +21,14 @@ const fileInit = async () => {
         console.log(` - ${newFile}`.brightCyan.bold);
         await file(newFile);
     });
-    fs.writeFileSync('./app/main.ssjs', `@html home from 'home.html';
-
-    import Slide from './slide.class.js';
-    const slide = new Slide();
-    
-    
-    const app = () => {;
-        slide.setGlobal('hello_world', 'variable setted properly!');
-        slide.render(home);
-    }`);
+    fs.writeFileSync('./app/main.ssjs', `@html home from 'example_page.html';
+import Slide from './slide.class.js';
+const slide = new Slide();
+  
+const app = () => {;
+  slide.setGlobal('hello_world', 'variable setted properly!');
+    slide.render(home);
+  }`);
 }
 
 const createCSSFiles = async () => {
