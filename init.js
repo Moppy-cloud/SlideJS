@@ -21,7 +21,7 @@ const fileInit = async () => {
         console.log(` - ${newFile}`.brightCyan.bold);
         await file(newFile);
     });
-    fs.writeFileSync('./app/main.ssjs', `@html home from 'example_page.html';
+    fs.writeFileSync('./app/main.ssjs', `@html example_page from 'example_page.html';
 import Slide from './slide.class.js';
 const slide = new Slide();
   
