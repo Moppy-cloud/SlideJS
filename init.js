@@ -9,6 +9,7 @@ const folders = 'private public public/css public/media app app/pages app/compon
 const files = ''.split(' ').filter(i => i);
 
 const fileInit = async () => {
+    fs.writeFileSync('./app/pages/example_page.html', `I'm an example! You can use components or dynamic variables using brackets and also HTML!`);
     // .brightCyan.bold
     console.log('Creating folders...'.yellow.bold);
     folders.forEach(async folder => {
