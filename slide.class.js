@@ -6,10 +6,12 @@ export default class Slide{
             this.main.id = 'application';
         }
         this.listen = {};
+        this.queue = [];
         this.changeVariable = (name, value) => this.main.querySelectorAll('*[data-listener-var="' + name + '"]').forEach(i => i.innerHTML = value);
     }
     setGlobal(name, value){
         this.changeVariable(name, value);
+        this.queue.push(() => this.changeVariable(name, value));
         this.listen[name] = value;
     }
     render(block){
@@ -18,5 +20,6 @@ export default class Slide{
             i.setAttribute('data-listener-var', key);
             i.innerHTML = i.innerHTML.replaceAll(`{${key}}`, this.listener[key])
         }));
+        this.queue.forEach(i);
     }
 }
