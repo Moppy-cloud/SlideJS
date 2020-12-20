@@ -48,6 +48,7 @@ const compileSSJS = file => {
     const isImport = i => i.startsWith('@page') && i.split(' ').length >= 4 && i.split(' ')[2] === 'from';
     const isImportComponent = i => i.startsWith('@component') && i.split(' ').length >= 4 && i.split(' ')[2] === 'from';
     compiled.filter(i => isImport(i) || isImportComponent(i)).forEach(i => toImport.push([i.split("'")[0].split(' '), i.split("'")[1].split("'")[0]].flat(Infinity).filter(i => i)));
+    compiled = compiled.filter(i => !isImport(i) && !isImportComponent(i));
     toImport.forEach(i => {
         const content = fs.readFileSync(i[0] === '@page' ? './app/pages/' + i[3] : './app/components/' + i[3]).toString().replaceAll('`', '\`').split('{').map(i => {
             const variableName = i.split('}')[0];
