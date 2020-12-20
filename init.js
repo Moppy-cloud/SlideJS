@@ -29,7 +29,9 @@ const app = () => {;
   slide.setGlobal('hello_world', 'variable setted properly!');
   slide.render(example_page);
 }`);
-    if(!fs.existsSync('./app/pages/example_page.html')) fs.writeFileSync('./app/pages/example_page.html', `I'm an example! You can use components or dynamic variables using brackets and also HTML!`);
+    if(!fs.existsSync('./.cache')) fs.writeFileSync('./app/pages/example_page.html', `I'm an example! You can use components or dynamic variables using brackets and also HTML!`);
+    console.log('\nCreating caches...'.yellow.bold);
+    fs.writeFileSync('./.cache', '#');
 }
 
 const createCSSFiles = async () => {
