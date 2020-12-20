@@ -51,7 +51,7 @@ const compileSSJS = file => {
     compiled = compiled.filter(i => !isImport(i) && !isImportComponent(i));
     toImport.forEach(i => {
         let content = fs.readFileSync(i[0] === '@page' ? './app/pages/' + i[3] : './app/components/' + i[3]).toString();
-        if(content.split('{').length) content = content.replaceAll('`', '\`').split('{').map(i => {
+        if(content.split('{').length > 1) content = content.replaceAll('`', '\`').split('{').map(i => {
             const variableName = i.split('}')[0];
             return '<span data-listener-var="' + variableName + '">' + i.split('}').join('</span>');
         }).join('');
