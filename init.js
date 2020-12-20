@@ -21,7 +21,7 @@ const fileInit = async () => {
         console.log(` - ${newFile}`.brightCyan.bold);
         await file(newFile);
     });
-    fs.writeFileSync('./app/main.ssjs', `@page example_page from 'example_page.html';
+    if(!fs.existsSync('./app/main.ssjs')) fs.writeFileSync('./app/main.ssjs', `@page example_page from 'example_page.html';
 import Slide from './slide.class.js';
 const slide = new Slide();
   
@@ -29,7 +29,7 @@ const app = () => {;
   slide.setGlobal('hello_world', 'variable setted properly!');
   slide.render(example_page);
 }`);
-    fs.writeFileSync('./app/pages/example_page.html', `I'm an example! You can use components or dynamic variables using brackets and also HTML!`);
+    if(!fs.existsSync('./app/pages/example_page.html')) fs.writeFileSync('./app/pages/example_page.html', `I'm an example! You can use components or dynamic variables using brackets and also HTML!`);
 }
 
 const createCSSFiles = async () => {
