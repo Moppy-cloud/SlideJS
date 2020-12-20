@@ -20,6 +20,6 @@ export default class Slide{
             i.setAttribute('data-listener-var', key);
             i.innerHTML = i.innerHTML.replaceAll(`{${key}}`, this.listener[key])
         }));
-        this.queue.forEach(i);
+        this.queue.forEach(i => i());
     }
 }
